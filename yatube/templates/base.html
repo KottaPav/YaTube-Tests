@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html> <!-- Используется html 5 версии -->
+<html lang="ru">
+  <head> 
+    {% include 'includes/icons.html' %}   
+    <title>
+      {% block title %}Заголовок не задан{% endblock %}
+    </title>
+  </head>
+  <body>
+    {% include 'includes/header.html' %}    
+    <main> 
+      {% block content %}Содержиное сайта находится в разработке
+      {% endblock %}
+    </main>
+    {% include 'includes/footer.html' %}
+  </body>
+</html>
