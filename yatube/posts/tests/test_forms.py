@@ -4,21 +4,24 @@ from django.test import Client, TestCase
 from django.urls import reverse
 
 
-class PostCreateFormTests(TestCase):
+class PostFormTests(TestCase):
     @classmethod
-    class PostFormTests(TestCase):
-
-        def setUpClass(cls):
-            super().setUpClass()
-            Post.objects.create(
-                title='Тестовый заголовок',
-                text='Тестовый текст',
-                slug='first'
-            )
-            cls.form = PostForm()
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.user = User.objects.create(username="HasNoName")
+        cls.group = Group.objects.create(
+            title='Тестовое название',
+            slug='test_slug',
+            description='Тестовое описание',
+        )
+        cls.post = Post.objects.create(
+            author=cls.user,
+            text='Тестовый текст',
+            group=cls.group,
+        )
+        cls.form = PostForm()
 
     def setUp(self):
-        self.user = User.objects.create(username="HasNoName")
         self.guest_client = Client()
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
@@ -28,9 +31,9 @@ class PostCreateFormTests(TestCase):
         posts_count = Post.objects.count()
         form_data = {
             'text': 'Тестовый текст',
-            # 'group': 'Тестовая группа', Необязательная. Надо ли проверять?
+            'group': self.group.id,
         }
-        response = self.guest_client.post(
+        response = self.authorized_client.post(
             reverse('posts:post_create'),
             data=form_data,
             follow=True
@@ -42,7 +45,8 @@ class PostCreateFormTests(TestCase):
         self.assertEqual(Post.objects.count(), posts_count + 1)
         self.assertTrue(Post.objects.filter(
             text='Тестовый текст',
-            group='Тестовая группа',
+            group=self.group.id,
+            author=self.user,
         ).exists()
         )
 
@@ -51,11 +55,6 @@ class PostCreateFormTests(TestCase):
         self.post = Post.objects.create(
             author=self.user,
             text="Тестовый текст",
-        )
-        self.group = Group.objects.create(
-            title="Тестовая группа",
-            slug="test-slug",
-            description="Тестовое описание",
         )
         posts_count = Post.objects.count()
         form_data = {"text": "Измененный текст", "group": self.group.id}

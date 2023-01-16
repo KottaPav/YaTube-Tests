@@ -71,4 +71,4 @@ def post_edit(request, post_id):
             'form': form,
         }
         return render(request, 'posts/post_create.html', context)
-    return render(request, 'posts/post_create.html', context)
+    return redirect('posts:post_create')
