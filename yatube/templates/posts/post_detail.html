@@ -18,7 +18,7 @@
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
           Всего постов автора:
-          <span >{{ quantity }}</span>
+          <span >{{ post.author.posts.count }}</span>
         </li>
         <li class="list-group-item">
           <a href="{% url 'posts:profile' post.author.username %}">

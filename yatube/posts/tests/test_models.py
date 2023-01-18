@@ -1,11 +1,6 @@
-from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from posts.models import Group, Post
-
-User = get_user_model()
-
-CUT_POST_LENGTH = 15
+from ..models import Group, Post, User, CUT_POST_LENGTH
 
 
 class PostModelTest(TestCase):

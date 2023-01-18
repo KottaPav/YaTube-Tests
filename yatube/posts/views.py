@@ -22,10 +22,8 @@ def group_posts(request, slug):
 
 def profile(request, username):
     author = get_object_or_404(User, username=username)
-    quantity = author.posts.select_related('author').count()
     context = {
         'author': author,
-        'quantity': quantity,
         'page_obj': post_paginator(
             author.posts.select_related('author'),
             request
@@ -36,11 +34,8 @@ def profile(request, username):
 
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    quantity = Post.objects.select_related(
-        'author').filter(author=post.author).count()
     context = {
         'post': post,
-        'quantity': quantity,
     }
     return render(request, 'posts/post_detail.html', context)
 
