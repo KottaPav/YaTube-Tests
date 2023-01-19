@@ -3,7 +3,9 @@ from django.test import Client, TestCase
 from django.urls import reverse
 
 from ..models import Group, Post, User
-from ..utils import POSTS_FOR_TEST, POSTS_PER_PAGE
+from ..utils import POSTS_PER_PAGE
+
+POSTS_FOR_TEST = 15
 
 
 class ProjectViewTests(TestCase):

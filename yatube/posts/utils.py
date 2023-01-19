@@ -1,7 +1,6 @@
 from django.core.paginator import Paginator
 
 
-POSTS_FOR_TEST = 15
 POSTS_PER_PAGE = 10
 
 
